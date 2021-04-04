@@ -164,5 +164,39 @@ int main(int argc, char*argv[]){
 			printf("\n");
 			permutacion(ap, 0, numero_total_platos);
 
+		int sum_ingredients(int numero_total_platos, int ap[numero_total_platos], int total_ingredientes, int p[numero_total_platos][total_ingredientes], int x2, int x3, int x4){
+			int sum = 0;
+			int offset3, offset4 = 0;
+			offset3 = 2*p2;
+			offset4 = 2*p2 + 3*p3;
+
+		
+			for(int i=0; i < p2 ; i++){
+				for(int j=0; j < total_ingredientes; j++){
+					if( p[ap[2*i]][j] || p[ap[(2*i)+1]][j] ){
+						sum++;
+					}
+				}
+			}
+
+			for(int i=0; i<p3; i++){
+				for(int j=0; j < total_ingredientes; j++){
+					if( p[ap[(op3+(3*i))]][j] || p[ap[(op3+(3*i)+1)]][j] || p[ap[(op3+(3*i)+2)]][j]){
+						sum++;
+					}
+				}
+			}
+
 			
+			for(int i=0; i < p4; i++){
+				for(int j = 0; j < total_ingredientes; j++){
+					if(p[ap[(op4+(4*i))]][j] || p[ap[(op4+(4*i)+1)]][j] || p[ap[(op4+(4*i)+2)]][j] || p[ap[(op4+(4*i)+3)]][j]){
+						sum++;
+					}
+				}
+			}
+
+			return sum;
+		}
+
 }
