@@ -21,15 +21,13 @@ void intercambiar(int *x1, int *x2){
 	*x2 = aux;
 }
 
-/* void imprimir_arreglo(int arreglo[], int tam){
+void imprimir_arreglo(int arreglo[], int tam){
 	
 	for(int k=0; k<tam; k++){
 		printf(" %d ", arreglo[k]);
 	}
 	printf("\n");
- */
-//}
-
+}
 
 
 void permutacion(int *arreglo, int inicio, int fin){
@@ -60,7 +58,7 @@ int main(int argc, char*argv[]){
 
 	char line[1024];
 	int line_count = 0;
-	int total_plates = 0;
+	int numero_total_platos = 0;
 	int total_ingredientes = 0;
 	int quantities[4];
 	int num_ingredientes = 0;
@@ -84,17 +82,17 @@ int main(int argc, char*argv[]){
 				quantities[terms_count] = atoi(token);
 				terms_count++;
 			}
-			for(int k=1, k<4, k++){
+			for(int k=1; k<4; k++){
 				if(k=1){
-					x1= quantities[k]
+					x2= quantities[k];
 				}
 
 				if(k=2){
-					x2=quantities[k]
+					x3=quantities[k];
 				}
 
 				if(k=3){
-					x3=quantities[k]
+					x4=quantities[k];
 				}
 			}
 			/*Incrementamos variable de control para la entrada de este procedimiento*/
@@ -108,24 +106,32 @@ int main(int argc, char*argv[]){
 			numero_total_platos++;
 
 			/*Lectura de cada ingrediente por plato*/
-			for(int i = 0; i<num_ingredients_per_plate; i++){
-				
+			for(int i = 0; i<num_ingredientes; i++){
 
-				to  = strtok_r(rest, " ", &rest);
+				token  = strtok_r(rest, " ", &rest);
 				comparisonSomeIsEqual = false;
 				char *aux = (char*)malloc(sizeof(char*));
 				remove_spaces(aux,token);
 				for(int k = 0; k < total_ingredientes; k++){
-					if(strcmp(ingredientes[k], aux){
+					if(strcmp(ingredientes[k], aux)){
 						comparisonSomeIsEqual= true;
 					}
 				}
+
 				if(comparisonSomeIsEqual == false){
-					strcpy(ingredientes[numero_total_ingredientes], aux);
-					numero_total_ingredientes++;
+					strcpy(ingredientes[total_ingredientes], aux);
+					total_ingredientes++;
 				}
 			}
 		}
 
 	}
+	fclose(fp);
+
+	printf("pedidos de 2 platos: %d \n", x2);
+	printf("pedidos de 3 platos: %d \n", x3);
+	printf("pedidos de 4 platos: %d \n", x4);
+	
+	printf("total de platos: %d \n", numero_total_platos);
+	printf("total de ingredientes: %d \n", total_ingredientes);
 }
