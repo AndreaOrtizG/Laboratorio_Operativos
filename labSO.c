@@ -128,10 +128,65 @@ int main(int argc, char*argv[]){
 	}
 	fclose(fp);
 
+
 	printf("pedidos de 2 platos: %d \n", x2);
 	printf("pedidos de 3 platos: %d \n", x3);
 	printf("pedidos de 4 platos: %d \n", x4);
 	
 	printf("total de platos: %d \n", numero_total_platos);
 	printf("total de ingredientes: %d \n", total_ingredientes);
+
+			offset3 = 2*x2;
+			offset4 = 2*x2 + 3*x3;
+			int p[numero_total_platos][total_ingredientess];
+			for(int k = 0; k < numero_total_platos; k++){
+				for(int l=0; l < total_ingredientes; l++){
+					p[k][l] = 0;
+				}
+			}
+			char line2[1024];
+			fp = fopen(argv[1], "r");
+			
+			line_count = 0;
+			num_ingredientes = 0;
+			while(fgets(line2, 1024,fp)){
+				char *token;
+				char *rest=line2;
+				
+				if(line_count==0){
+					line_count++;      //Se omite la primera linea del archivo
+				/*Lectura de los archivos*/
+				}else{
+					word = strtok_r(rest, " ", &rest);
+					num_ingredientes = atoi(token);
+					for(int k=0; i<num_ingredientes; k++){
+						token = strtok_r(rest, " ", &rest);
+						char *aux = (char*)malloc(sizeof(char*));
+						remove_spaces(aux, token;
+						for(int l=0;l<total_ingredientes;l++){
+							if(strcmp(ingredientes[j],aux)){
+								p[line_count-1][l] = 1;
+								l=total_ingredientes;
+							}
+						}
+					}
+					line_count++;
+				}
+			}
+			/*Se imprime la matriz P*/
+			for(int i=0; i< numero_total_platos; i++){
+				for(int j=0; j<total_ingredientes; j++){
+					printf(" %d ", p[i][j]);
+				}
+				printf("\n");
+			}
+			/*Inicialmente llenamos el vector AP*/
+			int ap[numero_total_platos];
+			for(int i=0; i < numero_total_platos; i++){
+				ap[i] = i;
+				printf(" %d ", ap[i]);
+			}
+			printf("\n");
+			permutacion(ap, 1, numero_total_platos);
+
 }
