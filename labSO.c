@@ -43,17 +43,17 @@ void permutacion(int *arreglo, int inicio, int fin){
 }
 
 int main(int argc, char*argv[]){
-	/*Validar que el archivo a leer fue ingresado como parametro*/
-	if(argc < 2){
+
+	if(argc < 2){   // Verifica que el archivo se ingrese como parámetro
 		printf("You must specify a filepath\n");
 		return EXIT_FAILURE;
 	}
 
 	FILE* fp = fopen(argv[1], "r");
 
-	/*Validar si hubo un error al ingresar a leer el archivo*/
+	
 	if(!fp){
-		printf("Error while opening the file %s\n", argv[1]);
+		printf("Error while opening the file %s\n", argv[1]);  //Verifica si hubo un error en la lectura del archivo
 	}
 
 	char line[1024];
@@ -68,13 +68,13 @@ int main(int argc, char*argv[]){
 	int offset3, offset4 = 0;
 	int terms_count;
 
-	// Métodos para leer el archivo y determinar los valores necesarios
+	// Métodos para leer el archivo y determinar los valores necesarios, Como numero de ingredientes total o por plato
 	while(fgets(line, 1024, fp)){
 		char *token;
 		char *rest =line;
 		
 		if(line_count == 0){
-				// Leer la primera lineal del archivo
+				// Leer la primera linea del archivo
 		
 		
 			while(token = strtok_r(rest, " ", &rest)){
@@ -95,17 +95,17 @@ int main(int argc, char*argv[]){
 					x4=quantities[k];
 				}
 			}
-			/*Incrementamos variable de control para la entrada de este procedimiento*/
-			line_count++;
+			
+			line_count++;  // Se aumenta la variable de control  para el procedimiento
 
-		/*Lectura de platos y sus ingredientes*/
+		// Métodos para la lectura del plato o ingredientes
 		}else{
-			/*Lectura de numero de ingredientes por plato*/
+			//Número de ingredientes por plato
 			token = strtok_r(rest, " ", &rest);
 			num_ingredientes = atoi(token);
 			numero_total_platos++;
 
-			/*Lectura de cada ingrediente por plato*/
+			
 			for(int i = 0; i<num_ingredientes; i++){
 
 				token  = strtok_r(rest, " ", &rest);
@@ -116,7 +116,7 @@ int main(int argc, char*argv[]){
 					if(strcmp(ingredientes[k], aux)){
 						comparisonSomeIsEqual= true;
 					}
-				}
+				} // Ingredientes por Plato
 
 				if(comparisonSomeIsEqual == false){
 					strcpy(ingredientes[total_ingredientes], aux);
@@ -137,44 +137,45 @@ int main(int argc, char*argv[]){
 	printf("total de ingredientes: %d \n", total_ingredientes);
 
 	
-
-	
-		
 			int p[numero_total_platos][total_ingredientes];
 			for(int k = 0; k < numero_total_platos; k++){
 				for(int l=0; l < total_ingredientes; l++){
-					p[k][l] = 0;
+					p[k][l] = 0;                       // Se llena la matriz P con ceros para no tener inconvenientes más adelante 
 				}
 			}
 			
 
-			/*Se imprime la matriz P*/
-			for(int i=0; i< numero_total_platos; i++){
-				for(int j=0; j<total_ingredientes; j++){
-					printf(" %d ", p[i][j]);
-				}
-				printf("\n");
-			}
-			/*Inicialmente llenamos el vector AP*/
+			//Se llena el vector AP para luego ser utilizado
 			int ap[numero_total_platos];
 			for(int i=0; i < numero_total_platos; i++){
 				ap[i] = i;
 				printf(" %d ", ap[i]);
 			}
-			printf("\n");
-			permutacion(ap, 0, numero_total_platos);
 
-		int sum_ingredients(int numero_total_platos, int ap[numero_total_platos], int total_ingredientes, int p[numero_total_platos][total_ingredientes], int x2, int x3, int x4){
-			int sum = 0;
+			// Se imprime la matriz P para verificar que quedo correctamente llena
+
+			for(int i=0; i< numero_total_platos; i++){
+				for(int j=0; j<total_ingredientes; j++){
+					printf(" %d ", p[i][j]);
+				}  
+				printf("\n");
+			}
+			
+			printf("\n");
+			permutacion(ap, 0, numero_total_platos); // Permutación para todos los platos 
+
+// Sumatoria para los pedidos de 2, 3 y 4 platos. 
+		int sumatoria_pedidos(int numero_total_platos, int ap[numero_total_platos], int total_ingredientes, int p[numero_total_platos][total_ingredientes], int x2, int x3){
+			int sumatoria = 0;
 			int offset3, offset4 = 0;
-			offset3 = 2*p2;
-			offset4 = 2*p2 + 3*p3;
+			offset3 = 2*x2;
+			offset4 = 2*x2 + 3*x3;
 
 		
 			for(int i=0; i < p2 ; i++){
 				for(int j=0; j < total_ingredientes; j++){
 					if( p[ap[2*i]][j] || p[ap[(2*i)+1]][j] ){
-						sum++;
+						sumatoria++;
 					}
 				}
 			}
@@ -182,7 +183,7 @@ int main(int argc, char*argv[]){
 			for(int i=0; i<p3; i++){
 				for(int j=0; j < total_ingredientes; j++){
 					if( p[ap[(op3+(3*i))]][j] || p[ap[(op3+(3*i)+1)]][j] || p[ap[(op3+(3*i)+2)]][j]){
-						sum++;
+						sumatoria++;
 					}
 				}
 			}
@@ -191,12 +192,12 @@ int main(int argc, char*argv[]){
 			for(int i=0; i < p4; i++){
 				for(int j = 0; j < total_ingredientes; j++){
 					if(p[ap[(op4+(4*i))]][j] || p[ap[(op4+(4*i)+1)]][j] || p[ap[(op4+(4*i)+2)]][j] || p[ap[(op4+(4*i)+3)]][j]){
-						sum++;
+						sumatoria++;
 					}
 				}
 			}
 
-			return sum;
+			return sumatoria;
 		}
 
 }
